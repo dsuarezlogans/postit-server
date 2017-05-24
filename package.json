@@ -13,7 +13,10 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "express-handlebars": "^3.0.0",
+    "moment": "^2.18.1",
     "sequelize": "^3.30.4",
+    "serve-favicon": "^2.4.3",
     "tedious": "^2.0.0",
     "volleyball": "^1.4.1"
   },

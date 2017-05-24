@@ -1,3 +1,5 @@
+'use strict';
+
 const api = require('express').Router();
 
 const ctrlUser = require('../controllers/users');

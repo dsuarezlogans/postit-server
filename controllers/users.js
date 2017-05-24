@@ -1,3 +1,5 @@
+'use strict';
+
 const User = require('../models/users');
 const Location = require('../models/locations');
 const Country = require('../models/country');
@@ -35,7 +37,6 @@ exports.getUsers = (req, res, next) => {
 };
 
 exports.setUser = (req, res, next) => {
-  console.log(req.body);
   User.create({
       username: req.body.username,
       birthday: req.body.birthday,
@@ -62,4 +63,24 @@ exports.setLocation = (req, res, next) => {
       res.status(200).jsonp(user);
     })
     .catch(next);
+};
+
+exports.queryUsers = () => {
+  const obj = {};
+  let dataPromise = new Promise((resolve, reject) => {
+    User.all({
+        include: [{
+          model: Location,
+          include: [Country]
+        }]
+      })
+      .then(users => {
+        console.log(users);
+        if(users.length <= 0) reject(obj.message = 'no users registered');
+        resolve(users);
+      })
+      .catch(err => reject(err));
+  });
+
+    return dataPromise;
 };

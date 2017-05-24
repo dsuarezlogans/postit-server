@@ -1,0 +1,28 @@
+<div class='container '>
+
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>Birthday</th>
+        <th>Address</th>
+        <th>Zipcode</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+        <tr>
+          <th scope="row">{{id}}</th>
+          <td>{{username}}</td>
+          <td>{{birthday}}</td>
+          <td>{{location}} {{country}}</td>
+          <td>{{zipcode}}</td>
+          <td><a class='btn btn-sm btn-success' href="#"><i class="fa fa-eye" aria-hidden="true"></i></a> <a class='btn btn-sm btn-danger' href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+</div>

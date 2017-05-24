@@ -1,3 +1,5 @@
+'use strict';
+
 const Sequelize = require('sequelize');
 
 const db = new Sequelize('test', 'dsuarez', 'Ds23589*144', {

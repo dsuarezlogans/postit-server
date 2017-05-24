@@ -1,0 +1,60 @@
+<h1>Add a User!!</h1>
+
+<form id="create" method="post" action="/api/users">
+  <div class='container '>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input class="form-control" type="text" name="username" placeholder="somename..." id="username">
+    </div>
+
+    <div class="form-group">
+      <label for="birthday">Birthday</label>
+      <input class="form-control" type="date" name="birthday" value="2011-08-19" id="birthday">
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input class="form-control" type="text" name="address" id="address">
+    </div>
+
+    <div class="form-group">
+      <label for="zipcode">Zipcode</label>
+      <input class="form-control" type="number" placeholder="6003" name="zipcode" id="zipcode">
+    </div>
+
+    <div class="form-group">
+      <label for="country">Country</label>
+      <select class="form-control" id="country" name="country">
+        <option>USA</option>
+        <option>VENEZUELA</option>
+        <option>UNITED KINGDOM</option>
+        <option>MEXICO</option>
+        <option>JAPAN</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+  </div>
+  <!-- .container -->
+</form>
+
+<script type="text/javascript">
+
+$( '#create' ).submit(event => {
+
+  // Stop form from submitting normally
+  event.preventDefault();
+
+  const url = $( this ).attr( 'action' );
+  // Send the data using post
+  let posting = $.post( '/api/users', $('#create').serialize() );
+
+  // Put the results in a div
+  posting.done(data => {
+    console.log(data);
+  });
+});
+
+
+</script>
