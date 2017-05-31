@@ -1,10 +1,10 @@
 'use strict';
 
 const User = require('../models/users');
-const Location = require('../models/locations');
-const Country = require('../models/country');
+const bcrypt = require('bcrypt-nodejs');
+const service = require('../services');
 
-exports.getByID = (req, res, next, id) => {
+/*exports.getByID = (req, res, next, id) => {
   User.findById(id, {
       include: [{
         model: Location,
@@ -21,66 +21,71 @@ exports.getByID = (req, res, next, id) => {
 
 exports.getUserByID = (req, res, next) => {
   res.status(200).jsonp(req.user);
-};
+};*/
 
 exports.getUsers = (req, res, next) => {
-  User.all({
-      include: [{
-        model: Location,
-        include: [Country]
-      }]
-    })
+  User.all()
     .then(data => {
       res.status(200).send(data);
     })
     .catch(next);
 };
 
-exports.setUser = (req, res, next) => {
+exports.signUp = (req, res, next) => {
+
+  const username = req.body.username;
+  const email = req.body.email;
+
   User.create({
-      username: req.body.username,
-      birthday: req.body.birthday,
-      location: {
-        address: req.body.address,
-        zipcode: req.body.zipcode,
-        country: {
-          name: req.body.country
-        }
-      }
-    }, {
-      include: [{
-        model: Location,
-        include: [Country]
-      }]
+      username: username.toLowerCase(),
+      email: email.toLowerCase(),
+      firtsName: req.body.firtsName,
+      lastName: req.body.lastName,
+      password: req.body.password
     })
-    .then(user => res.status(200).jsonp(user))
-    .catch(next);
-};
-
-exports.setLocation = (req, res, next) => {
-  req.user.setLocation(req.body.locationId)
     .then(user => {
-      res.status(200).jsonp(user);
+      return res.status(201).jsonp({
+        success: true,
+        message: 'registro exitoso',
+        fullName: `${user.firtsName} ${user.lastName}`
+      });
     })
-    .catch(next);
+    .catch(err => {
+      return res.status(401).jsonp({
+        success: false,
+        message: err.errors[0].message
+      });
+    });
+
 };
 
-exports.queryUsers = () => {
-  const obj = {};
-  let dataPromise = new Promise((resolve, reject) => {
-    User.all({
-        include: [{
-          model: Location,
-          include: [Country]
-        }]
-      })
-      .then(users => {
-        console.log(users);
-        if(users.length <= 0) reject(obj.message = 'no users registered');
-        resolve(users);
-      })
-      .catch(err => reject(err));
+exports.signIn = (req, res, next) => {
+  const user = User.find({
+    where: {
+      username: req.body.username
+    }
   });
 
-    return dataPromise;
+  user.then(data => {
+    if (!data) return res.status(400).jsonp({
+      success: false,
+      message: 'usuario invalido'
+    });
+
+    bcrypt.compare(req.body.password, data.password, function(err, resp) {
+      if (!resp) return res.status(400).jsonp({
+        success: resp,
+        message: 'contraseña invalida'
+      });
+
+      const token = service.createToken(data);
+
+      return res.status(202).jsonp({
+        success: resp,
+        message: 'sesion iniciada',
+        fullName: `${data.firtsName} ${data.lastName}`,
+        token: token
+      });
+    });
+  }).catch(next);
 };

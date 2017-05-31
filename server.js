@@ -1,6 +1,7 @@
 'use strict';
 
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const express = require('express');
 const favicon = require('serve-favicon');
 const hbs = require('express-handlebars');
@@ -11,8 +12,6 @@ const volleyball = require('volleyball');
 const config = require('./config');
 const api = require('./routes');
 
-const User = require('./controllers/users');
-
 const app = express();
 
 app.use('/public', express.static(path.join(__dirname,'public')));
@@ -22,6 +21,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(volleyball);
+app.use(cors());
 
 app.engine('.hbs', hbs({
   defaultLayout: 'default',
@@ -29,17 +29,7 @@ app.engine('.hbs', hbs({
 }));
 app.set('view engine', '.hbs');
 
-
 app.get('/', function (req, res) {
-    const data = User.queryUsers();
-    data
-     .then(data => {
-       console.log(data);
-       res.render('list-user',{ users: data });
-     })
-     .catch(err => {
-       console.log(err);
-     });
 
 });
 

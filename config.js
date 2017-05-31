@@ -19,5 +19,6 @@ const db = new Sequelize('test', 'dsuarez', 'Ds23589*144', {
 module.exports = {
   PORT: process.env.PORT || '3000',
   DB_CONN: db,
-  SEQUELIZE: Sequelize
+  SEQUELIZE: Sequelize,
+  SECRET_TOKEN: '5W9/h}0#H1oob%I2l}z1a<E!#B*S+'  
 };
