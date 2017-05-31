@@ -30,7 +30,7 @@ app.engine('.hbs', hbs({
 app.set('view engine', '.hbs');
 
 app.get('/', function (req, res) {
-
+  res.render('home');
 });
 
 app.get('/add', function (req, res) {
