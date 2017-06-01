@@ -39,7 +39,7 @@ exports.signUp = (req, res, next) => {
   User.create({
       username: username.toLowerCase(),
       email: email.toLowerCase(),
-      firtsName: req.body.firtsName,
+      firstName: req.body.firstName,
       lastName: req.body.lastName,
       password: req.body.password
     })
@@ -47,7 +47,7 @@ exports.signUp = (req, res, next) => {
       return res.status(201).jsonp({
         success: true,
         message: 'registro exitoso',
-        fullName: `${user.firtsName} ${user.lastName}`
+        fullName: `${user.firstName} ${user.lastName}`
       });
     })
     .catch(err => {
@@ -83,7 +83,7 @@ exports.signIn = (req, res, next) => {
       return res.status(202).jsonp({
         success: resp,
         message: 'sesion iniciada',
-        fullName: `${data.firtsName} ${data.lastName}`,
+        fullName: `${data.firstName} ${data.lastName}`,
         token: token
       });
     });

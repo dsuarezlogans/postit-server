@@ -35,7 +35,7 @@ const User = config.DB_CONN.define('user', {
       }
     }
   },
-  firtsName: {
+  firstName: {
     type: config.SEQUELIZE.STRING,
     allowNull: false,
     notEmpty: true
