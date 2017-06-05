@@ -3,6 +3,7 @@
 const services = require('../services');
 
 function isAuth (req, res, next) {
+  console.log(req.headers);
   if (!req.headers.authorization) {
     return res.status(401).send({ success:false, message: 'No tienes autorización' });
   }

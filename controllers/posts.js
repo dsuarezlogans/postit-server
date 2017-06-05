@@ -6,7 +6,6 @@ const Post = require('../models/posts');
 const Comment = require('../models/comments');
 
 module.exports.getPosts = (req, res, next) => {
-  console.log(req.headers);
   Post.all({
       include: [ Comment ]
     })
