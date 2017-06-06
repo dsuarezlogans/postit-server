@@ -23,7 +23,18 @@ const Post = config.DB_CONN.define('post', {
   image: {
     type: config.SEQUELIZE.STRING,
     defaultValue: '/public/img/default.png'
-  }
+  },
+  author: {
+    type: config.SEQUELIZE.STRING,
+    defaultValue: '',
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        arg: true,
+        msg: 'Debe ingresar un nombre de autor'
+      }
+    }
+  },
 });
 
 Post.hasMany(Comment, {

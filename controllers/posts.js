@@ -26,7 +26,9 @@ module.exports.createPost = (req, res, next) => {
   Post.create({
       title: req.body.title,
       body: req.body.body,
-      image: req.body.image
+      image: req.body.image,
+      author: req.body.author,
+      date: req.body.date
     })
     .then((data) => {
       return res.status(201).jsonp({
